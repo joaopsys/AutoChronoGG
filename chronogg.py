@@ -10,10 +10,10 @@ import sys
 import os
 import ctypes
 
-MAIN_URL = 'https://chrono.gg/'
-POST_URL = 'https://chell.chrono.gg/quest/spin'
+MAIN_URL = 'https://chrono.gg'
+POST_URL = 'https://api.chrono.gg/quest/spin'
 ALREADY_CLICKED_CODE = 420
-USER_AGENT = 'Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
 GLOBAL_HEADERS = {'User-Agent': USER_AGENT, 'Pragma': 'no-cache', 'Origin': MAIN_URL, 'Accept-Encoding': 'gzip, deflate, br', 'Accept': 'application/json', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Referer': MAIN_URL}
 COOKIE_FILE_NAME = ".chronogg"
 
