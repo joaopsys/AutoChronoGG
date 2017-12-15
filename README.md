@@ -3,11 +3,15 @@ A Python script to automatically get the daily coins on Chrono.gg
 
 **Format:**
 
-The format is pretty straightforward, the program only needs your cookie in order to have access to your Chrono.gg session.
+The format is pretty straightforward, the program only needs your Authorization Token in order to have access to your Chrono.gg session.
 
-    Usage: ./chronogg.py <Cookie (first execution only)>
+    Usage: ./chronogg.py <Authorization Token (first execution only)>
     
-In order to obtain your cookie, you can press CTRL+SHIFT+J while on Chrono.gg (CTRL+SHIFT+K on Firefox) and type **document.cookie**. Then use the whole string (quotes included) as the argument.
+In order to obtain your Authorization Token, you must follow these steps:
+* Head to https://chrono.gg/ and login
+* Right-click anywhere -> Inspect Element -> Go to the network tab -> Filter by XHR
+* Keep the network tab open and refresh the page
+* Some requests will appear, **click "account"** and copy the **Authorization** header under "Request Headers". It should start with "JWT", followed by a train of characters. **Make sure you copy all of it**
 **You only need need to do this once because AutoChronoGG will remember your cookie (if valid).**
 
 **Optional: Crontab**
