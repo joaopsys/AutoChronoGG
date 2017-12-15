@@ -11,7 +11,8 @@ In order to obtain your Authorization Token, you must follow these steps:
 * Head to https://chrono.gg/ and login
 * Right-click anywhere -> Inspect Element -> Go to the network tab -> Filter by XHR
 * Keep the network tab open and refresh the page
-* Some requests will appear, **click "account"** and copy the **Authorization** header under "Request Headers". It should start with "JWT", followed by a train of characters. **Make sure you copy all of it**
+* Some requests will appear, **click "account"** and copy the **Authorization** header under "Request Headers". It should start with "JWT", followed by a train of characters. **Make sure you copy all of it!**
+
 **You only need need to do this once because AutoChronoGG will remember your cookie (if valid).**
 
 **Optional: Crontab**
