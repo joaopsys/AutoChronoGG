@@ -13,7 +13,7 @@ In order to obtain your Authorization Token, you must follow these steps:
 * Keep the network tab open and refresh the page
 * Some requests will appear, **click "account"** and copy the **Authorization** header under "Request Headers". It should start with "JWT", followed by a train of characters. **Make sure you copy all of it!**
 
-**You only need need to do this once because AutoChronoGG will remember your cookie (if valid).**
+**You only need need to do this once because AutoChronoGG will remember your authorization token (if valid).**
 
 **Optional: Crontab**
 
