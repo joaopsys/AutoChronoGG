@@ -5,7 +5,7 @@ A Python script to automatically get the daily coins on Chrono.gg
 
 The format is pretty straightforward, the program only needs your Authorization Token in order to have access to your Chrono.gg session.
 
-    Usage: ./chronogg.py <Authorization Token (first execution only)>
+    Usage: ./chronogg.py "<Authorization Token (starts with JWT, first execution only)>"
     
 In order to obtain your Authorization Token, you must follow these steps:
 * Head to https://chrono.gg/ and login
