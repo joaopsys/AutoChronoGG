@@ -108,9 +108,9 @@ def main():
             return
         elif (results == UNAUTHORIZED):
             print('An error occurred while fetching results: UNAUTHORIZED. Terminating...')
-            for email in config['email']['to']:
-                recipients.append(email['name'] + ' <' + email['address'] + '>')
             if config['email']['enabled']:
+                for email in config['email']['to']:
+                    recipients.append(email['name'] + ' <' + email['address'] + '>')
                 send_mail(to_email=recipients, subject='AutoChronoGG: Invalid cookie', message='An error occurred while fetching results: UNAUTHORIZED. Terminating...', config=config)
             return
         print ('Done.')
