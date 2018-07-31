@@ -1,0 +1,20 @@
+{
+  "email": {
+    "enabled": false,
+    "server": "localhost",
+    "from": {
+      "name": "AutoChronoGG",
+      "address": "no-reply@example.com"
+    },
+    "to": [
+      {
+        "name": "John Smith",
+        "address": "john.smith@example.com"
+      },
+      {
+        "name": "Jane Doe",
+        "address": "jane.doe@example.com"
+      }
+    ]
+  }
+}

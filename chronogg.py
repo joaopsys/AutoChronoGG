@@ -9,13 +9,18 @@ import urllib.error
 import sys
 import os
 import ctypes
+import json
+import smtplib
+from email.message import EmailMessage
 
 MAIN_URL = 'https://chrono.gg'
 POST_URL = 'https://api.chrono.gg/quest/spin'
 ALREADY_CLICKED_CODE = 420
+UNAUTHORIZED = 401
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
 GLOBAL_HEADERS = {'User-Agent': USER_AGENT, 'Pragma': 'no-cache', 'Origin': MAIN_URL, 'Accept-Encoding': 'gzip, deflate, br', 'Accept': 'application/json', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'Referer': MAIN_URL}
 COOKIE_FILE_NAME = ".chronogg"
+CONFIG_FILE_NAME = ".config"
 
 def getWebPage(url, headers, cookies):
     try:
@@ -34,6 +39,8 @@ def getWebPage(url, headers, cookies):
         print("Error processing webpage: "+str(e))
         if (e.code == ALREADY_CLICKED_CODE):
             return ALREADY_CLICKED_CODE
+        if (e.code == UNAUTHORIZED):
+            return UNAUTHORIZED
         return None
 
 def saveCookie(cookie):
@@ -55,8 +62,29 @@ def getCookieFromfile():
     except:
         return ''
 
+def getConfigFromFile():
+    try:
+        with open(CONFIG_FILE_NAME, 'r') as f:
+            return json.load(f)
+    except:
+        return False
+def send_mail(to, subject, message, frm, host):
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = frm['name'] + ' <' + frm['address'] + '>'
+    msg['To'] = ', '.join(to)
+    msg.set_content(message)
+    server = smtplib.SMTP(host)
+    server.send_message(msg)
+    server.quit()
+
 def main():
     try:
+        config = getConfigFromFile()
+        if not config:
+            print('An error occurred while trying to load config the file.')
+            print('Copy .config.example to .config')
+            return
         if (len(sys.argv) < 2):
             ggCookie = getCookieFromfile()
             if (not ggCookie or len(ggCookie) < 1):
@@ -69,12 +97,23 @@ def main():
             ggCookie = sys.argv[1]
 
         results = getWebPage(POST_URL, GLOBAL_HEADERS, ggCookie)
+        recipients = []
         if (not results):
             print('An error occurred while fetching results (probably expired/invalid cookie). Terminating...')
             return
         elif (results == ALREADY_CLICKED_CODE):
             print('An error occurred while fetching results: Coin already clicked. Terminating...')
             saveCookie(ggCookie)
+            return
+        elif (results == UNAUTHORIZED):
+            print('An error occurred while fetching results: UNAUTHORIZED. Terminating...')
+            if config['email']['enabled']:
+                for email in config['email']['to']:
+                    recipients.append(email['name'] + ' <' + email['address'] + '>')
+                frm = {}
+                frm['name'] = config['email']['from']['name']
+                frm['address'] = config['email']['from']['address']
+                send_mail(to=recipients, subject='AutoChronoGG: Invalid cookie', message='An error occurred while fetching results: UNAUTHORIZED. Terminating...', frm=frm, host=config['email']['server'])
             return
         print ('Done.')
         saveCookie(ggCookie)
@@ -83,4 +122,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
