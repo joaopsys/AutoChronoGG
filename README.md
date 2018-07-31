@@ -15,16 +15,13 @@ In order to obtain your Authorization Token, you must follow these steps:
 
 **You only need to do this once because AutoChronoGG will remember your authorization token (if valid).**
 
-**First time setup:**
+**Optional: Additional features - E-mail on expired/invalid token**
 
 * Copy `.config.example` to `.config`
+* Enable by setting `email.enabled` to `true` in `.config`.
 
 **Optional: Crontab**
 
 This script is meant to be run once per day, so here goes a crontab example for the lazy:
 
     0 17 * * * root cd /usr/local/bin/ && ./chronogg.py
-
-**Optional: Email on Invalid Token**
-
-Enable by setting `email.enabled` to `true` in `.config`.

@@ -68,6 +68,10 @@ def getConfigFromFile():
             return json.load(f)
     except:
         return False
+
+def configExists():
+    return os.path.exists(CONFIG_FILE_NAME)
+
 def send_mail(to, subject, message, frm, host):
     msg = EmailMessage()
     msg['Subject'] = subject
@@ -81,39 +85,41 @@ def send_mail(to, subject, message, frm, host):
 def main():
     try:
         config = getConfigFromFile()
-        if not config:
-            print('An error occurred while trying to load config the file.')
-            print('Copy .config.example to .config')
-            return
+        if configExists():
+            if not config:
+                print('An error occurred while trying to load the config from file. Check the JSON syntax in '+CONFIG_FILE_NAME)
+                return
         if (len(sys.argv) < 2):
             ggCookie = getCookieFromfile()
             if (not ggCookie or len(ggCookie) < 1):
                 print('<<<AutoChronoGG>>>')
-                print('Usage: ./chronogg.py <Cookie>')
-                print('Please insert your cookie. Press CTRL+SHIFT+J on the website (CTRL+SHIFT+K on Firefox) and type document.cookie. Then paste the whole string as an argument.')
-                print('You only need need to do this once because AutoChronoGG will remember your cookie (if valid).')
+                print('Usage: ./chronogg.py <Authorization Token>')
+                print('Please read the README.md and follow the instructions on how to extract your authorization token.')
                 return
         else:
             ggCookie = sys.argv[1]
 
         results = getWebPage(POST_URL, GLOBAL_HEADERS, ggCookie)
-        recipients = []
         if (not results):
-            print('An error occurred while fetching results (probably expired/invalid cookie). Terminating...')
+            print('An unknown error occurred while fetching results. Terminating...')
             return
         elif (results == ALREADY_CLICKED_CODE):
             print('An error occurred while fetching results: Coin already clicked. Terminating...')
             saveCookie(ggCookie)
             return
         elif (results == UNAUTHORIZED):
-            print('An error occurred while fetching results: UNAUTHORIZED. Terminating...')
-            if config['email']['enabled']:
+            print('An error occurred while fetching results: Expired/invalid authorization token. Terminating...')
+            if config and config['email']['enabled']:
+                recipients = []
                 for email in config['email']['to']:
                     recipients.append(email['name'] + ' <' + email['address'] + '>')
                 frm = {}
                 frm['name'] = config['email']['from']['name']
                 frm['address'] = config['email']['from']['address']
-                send_mail(to=recipients, subject='AutoChronoGG: Invalid cookie', message='An error occurred while fetching results: UNAUTHORIZED. Terminating...', frm=frm, host=config['email']['server'])
+                try:
+                    send_mail(to=recipients, subject='AutoChronoGG: Invalid token', message='An error occurred while fetching results: Expired/invalid authorization token. Terminating...', frm=frm, host=config['email']['server'])
+                except:
+                    print('An error occurred while sending an e-mail alert. Please check your configuration file or your mail server.')
             return
         print ('Done.')
         saveCookie(ggCookie)
