@@ -68,14 +68,13 @@ def getConfigFromFile():
             return json.load(f)
     except:
         return False
-
-def send_mail(to_email, subject, message, config):
+def send_mail(to, subject, message, frm, host):
     msg = EmailMessage()
     msg['Subject'] = subject
-    msg['From'] = config['email']['from']['name'] + ' <' + config['email']['from']['address'] + '>'
-    msg['To'] = ', '.join(to_email)
+    msg['From'] = frm['name'] + ' <' + frm['address'] + '>'
+    msg['To'] = ', '.join(to)
     msg.set_content(message)
-    server = smtplib.SMTP(config['email']['server'])
+    server = smtplib.SMTP(host)
     server.send_message(msg)
     server.quit()
 
@@ -111,7 +110,10 @@ def main():
             if config['email']['enabled']:
                 for email in config['email']['to']:
                     recipients.append(email['name'] + ' <' + email['address'] + '>')
-                send_mail(to_email=recipients, subject='AutoChronoGG: Invalid cookie', message='An error occurred while fetching results: UNAUTHORIZED. Terminating...', config=config)
+                frm = {}
+                frm['name'] = config['email']['from']['name']
+                frm['address'] = config['email']['from']['address']
+                send_mail(to=recipients, subject='AutoChronoGG: Invalid cookie', message='An error occurred while fetching results: UNAUTHORIZED. Terminating...', frm=frm, host=config['email']['server'])
             return
         print ('Done.')
         saveCookie(ggCookie)
