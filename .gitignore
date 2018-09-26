@@ -3,3 +3,4 @@
 .config
 /local_vars.py
 __pycache__/
+*.log
