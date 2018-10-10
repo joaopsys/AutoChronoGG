@@ -28,21 +28,6 @@ GLOBAL_HEADERS = {'User-Agent': USER_AGENT, 'Pragma': 'no-cache', 'Origin': MAIN
 COOKIE_FILE_NAME = ".chronogg"
 CONFIG_FILE_NAME = ".config"
 
-try:
-    from local_vars import proxy_password, proxy_login, proxyurl
-
-    if proxy_login and proxy_password and proxyurl:
-        proxy = 'http://{}:{}@{}'.format(proxy_login, proxy_password, proxyurl)
-    elif proxy_login and proxyurl:
-        proxy = 'http://{}@{}'.format(proxy_login, proxyurl)
-    else:
-        proxy = 'http://{}'.format(proxyurl)
-    os.environ['HTTP_PROXY'] = proxy
-    os.environ['HTTPS_PROXY'] = proxy
-except ImportError:
-    os.environ['HTTP_PROXY'] = ''
-    os.environ['HTTPS_PROXY'] = ''
-
 
 @contextlib.contextmanager
 def setup_logging():
