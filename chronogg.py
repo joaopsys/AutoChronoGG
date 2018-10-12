@@ -40,15 +40,18 @@ def setup_logging():
     try:
         # __enter__
 
-        log_filename = 'AutoChronoGG_{}.log'.format(time.strftime("%Y%m%d-%H%M%S"))
-        f_handler = logging.FileHandler(filename=log_filename, encoding='utf-8', mode='w')
+        # Generic file logging
+        # log_filename = 'AutoChronoGG_{}.log'.format(time.strftime("%Y%m%d-%H%M%S"))
+        # f_handler = logging.FileHandler(filename=log_filename, encoding='utf-8', mode='w')
+
         s_handler = logging.StreamHandler(stream=sys.stdout)
         dt_fmt = '%Y-%m-%d %H:%M:%S'
         fmt = logging.Formatter(
             '%(asctime)s %(levelname)-5.5s [%(name)s] [%(funcName)s()] %(message)s <line %(lineno)d>',
             dt_fmt,
             style='%')
-        for handler in [f_handler, s_handler]:
+        # add f_handler in list to add file logging
+        for handler in [s_handler]:
             handler.setFormatter(fmt)
             logger.addHandler(handler)
 

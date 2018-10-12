@@ -2,3 +2,4 @@
 .chronogg
 .config
 __pycache__/
+*.log
