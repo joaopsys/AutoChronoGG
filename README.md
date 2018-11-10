@@ -1,6 +1,10 @@
 # AutoChronoGG
 A Python script to automatically get the daily coins on Chrono.gg
 
+**Requirements:**
+
+Python 3 is required to run this script.
+
 **Format:**
 
 The format is pretty straightforward, the program only needs your Authorization Token in order to have access to your Chrono.gg session.
