@@ -1,3 +1,6 @@
+# Update
+It was good while it lasted, but unfortunately Chrono.gg has removed the Coin Shop so this repository is now archived. Thank you everybody for using and abusing!
+
 # AutoChronoGG
 A Python script to automatically get the daily coins on Chrono.gg
 
